@@ -12,6 +12,14 @@
 		ED0AE7C52937E5930091EE70 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ED0AE7C42937E5930091EE70 /* Assets.xcassets */; };
 		ED0AE7C82937E5930091EE70 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ED0AE7C72937E5930091EE70 /* Preview Assets.xcassets */; };
 		EDE6DAFA294F42B6009A00AD /* CustomNavigationStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE6DAF9294F42B6009A00AD /* CustomNavigationStack.swift */; };
+		EDE6DB00294F7DDF009A00AD /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE6DAFF294F7DDF009A00AD /* Person.swift */; };
+		EDE6DB02294F8150009A00AD /* Film.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE6DB01294F8150009A00AD /* Film.swift */; };
+		EDE6DB04294F823B009A00AD /* Starship.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE6DB03294F823B009A00AD /* Starship.swift */; };
+		EDE6DB06294F82E8009A00AD /* Vehicle.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE6DB05294F82E8009A00AD /* Vehicle.swift */; };
+		EDE6DB08294F8321009A00AD /* Specie.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE6DB07294F8321009A00AD /* Specie.swift */; };
+		EDE6DB0A294F834F009A00AD /* Planet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE6DB09294F834F009A00AD /* Planet.swift */; };
+		EDE6DB0C294F83FD009A00AD /* SWAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE6DB0B294F83FD009A00AD /* SWAPI.swift */; };
+		EDE6DB10294F990E009A00AD /* PeopleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE6DB0F294F990E009A00AD /* PeopleViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,6 +29,14 @@
 		ED0AE7C42937E5930091EE70 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		ED0AE7C72937E5930091EE70 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		EDE6DAF9294F42B6009A00AD /* CustomNavigationStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationStack.swift; sourceTree = "<group>"; };
+		EDE6DAFF294F7DDF009A00AD /* Person.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
+		EDE6DB01294F8150009A00AD /* Film.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Film.swift; sourceTree = "<group>"; };
+		EDE6DB03294F823B009A00AD /* Starship.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Starship.swift; sourceTree = "<group>"; };
+		EDE6DB05294F82E8009A00AD /* Vehicle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vehicle.swift; sourceTree = "<group>"; };
+		EDE6DB07294F8321009A00AD /* Specie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Specie.swift; sourceTree = "<group>"; };
+		EDE6DB09294F834F009A00AD /* Planet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Planet.swift; sourceTree = "<group>"; };
+		EDE6DB0B294F83FD009A00AD /* SWAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SWAPI.swift; sourceTree = "<group>"; };
+		EDE6DB0F294F990E009A00AD /* PeopleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +69,7 @@
 		ED0AE7BF2937E5910091EE70 /* OTUSHomeworks */ = {
 			isa = PBXGroup;
 			children = (
+				EDE6DB0E294F98FB009A00AD /* ViewModels */,
 				EDE6DAFD294F70FB009A00AD /* Network */,
 				EDE6DAF8294F428F009A00AD /* Navigation */,
 				ED0AE7C02937E5910091EE70 /* OTUSHomeworksApp.swift */,
@@ -82,8 +99,39 @@
 		EDE6DAFD294F70FB009A00AD /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				EDE6DB0D294F847F009A00AD /* API */,
+				EDE6DAFE294F7DC5009A00AD /* Models */,
 			);
 			path = Network;
+			sourceTree = "<group>";
+		};
+		EDE6DAFE294F7DC5009A00AD /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				EDE6DAFF294F7DDF009A00AD /* Person.swift */,
+				EDE6DB01294F8150009A00AD /* Film.swift */,
+				EDE6DB03294F823B009A00AD /* Starship.swift */,
+				EDE6DB05294F82E8009A00AD /* Vehicle.swift */,
+				EDE6DB07294F8321009A00AD /* Specie.swift */,
+				EDE6DB09294F834F009A00AD /* Planet.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		EDE6DB0D294F847F009A00AD /* API */ = {
+			isa = PBXGroup;
+			children = (
+				EDE6DB0B294F83FD009A00AD /* SWAPI.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
+		EDE6DB0E294F98FB009A00AD /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				EDE6DB0F294F990E009A00AD /* PeopleViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -156,9 +204,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EDE6DB10294F990E009A00AD /* PeopleViewModel.swift in Sources */,
+				EDE6DB02294F8150009A00AD /* Film.swift in Sources */,
+				EDE6DB00294F7DDF009A00AD /* Person.swift in Sources */,
+				EDE6DB0C294F83FD009A00AD /* SWAPI.swift in Sources */,
 				ED0AE7C32937E5910091EE70 /* ContentView.swift in Sources */,
+				EDE6DB04294F823B009A00AD /* Starship.swift in Sources */,
+				EDE6DB08294F8321009A00AD /* Specie.swift in Sources */,
+				EDE6DB06294F82E8009A00AD /* Vehicle.swift in Sources */,
 				ED0AE7C12937E5910091EE70 /* OTUSHomeworksApp.swift in Sources */,
 				EDE6DAFA294F42B6009A00AD /* CustomNavigationStack.swift in Sources */,
+				EDE6DB0A294F834F009A00AD /* Planet.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
