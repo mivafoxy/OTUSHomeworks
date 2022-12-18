@@ -8,14 +8,27 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var currentPage = 0
+    
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+        HStack {
+            VStack {
+                Picker("Segmented Picker", selection: $currentPage) {
+                    Text("Москва")
+                        .tag(0)
+                    Text("Cанкт-Петербург")
+                        .tag(1)
+                    Text("Воронеж")
+                        .tag(2)
+                }
+                .pickerStyle(.segmented)
+                List {
+                    Text("Hello")
+                    Text("bye")
+                }
+            }
         }
-        .padding()
     }
 }
 
