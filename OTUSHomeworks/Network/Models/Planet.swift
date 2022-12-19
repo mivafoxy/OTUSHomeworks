@@ -7,18 +7,34 @@
 
 import Foundation
 
-struct Planets: Decodable {
+final class Planets: Decodable, ListModelProtocol {
+    typealias ElementsType = Planet
+    
     let count: Int
     let next: String?
     let previous: String?
     let results: [Planet]
+    
+    static var sectionName: String {
+        "planets"
+    }
+    
+    var elements: [Planet] {
+        results
+    }
+    
+    var hasNextElement: Bool {
+        next != nil
+    }
 }
 
-struct Planet: Decodable {
+final class Planet: Decodable, ModelProtocol {
     let climate, created, diameter, edited: String
     let films: [String]
     let gravity, name, orbitalPeriod, population: String
     let residents: [String]
     let rotationPeriod, surfaceWater, terrain: String
     let url: String
+    
+    var modelName: String { name }
 }

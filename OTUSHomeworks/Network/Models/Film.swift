@@ -7,14 +7,32 @@
 
 import Foundation
 
-struct Films: Decodable {
+final class Films: Decodable, ListModelProtocol {
+    typealias ElementsType = Film
+    
     let count: Int
     let next: String?
     let previous: String?
     let results: [Film]
+    
+    static var sectionName: String {
+        "films"
+    }
+    
+    var elements: [Film] {
+        results
+    }
+    
+    var hasNextElement: Bool {
+        next != nil
+    }
+    
+    func elementName(element: Film) -> String {
+        return element.title
+    }
 }
 
-struct Film: Decodable {
+final class Film: Decodable, ModelProtocol {
     let title: String
     let episode_id: Int
     let opening_crawl: String
@@ -29,4 +47,6 @@ struct Film: Decodable {
     let url: String
     let created: String
     let edited: String
+    
+    var modelName: String { title }
 }

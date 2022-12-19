@@ -7,14 +7,32 @@
 
 import Foundation
 
-struct Starships: Decodable {
+final class Starships: Decodable, ListModelProtocol {
+    typealias ElementsType = Starship
+    
     let count: Int
     let next: String?
     let previous: String?
     let results: [Starship]
+    
+    static var sectionName: String {
+        "starships"
+    }
+    
+    var elements: [Starship] {
+        results
+    }
+    
+    var hasNextElement: Bool {
+        next != nil
+    }
+    
+    func elementName(element: Starship) -> String {
+        return element.name
+    }
 }
 
-struct Starship: Decodable {
+final class Starship: Decodable, ModelProtocol {
     let mglt, cargoCapacity, consumables, costInCredits: String
     let created, crew, edited, hyperdriveRating: String
     let length, manufacturer, maxAtmospheringSpeed, model: String
@@ -23,4 +41,6 @@ struct Starship: Decodable {
     let pilots: [String]
     let starshipClass: String
     let url: String
+    
+    var modelName: String { name }
 }

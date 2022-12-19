@@ -7,14 +7,32 @@
 
 import Foundation
 
-struct Vehicles: Decodable {
+final class Vehicles: Decodable, ListModelProtocol {
+    typealias ElementsType = Vehicle
+    
     let count: Int
     let next: String?
     let previous: String?
     let results: [Vehicle]
+    
+    static var sectionName: String {
+        "vehicles"
+    }
+    
+    var elements: [Vehicle] {
+        results
+    }
+    
+    var hasNextElement: Bool {
+        next != nil
+    }
+    
+    func elementName(element: Vehicle) -> String {
+        return element.name
+    }
 }
 
-struct Vehicle: Decodable {
+final class Vehicle: Decodable, ModelProtocol {
     let cargoCapacity, consumables, costInCredits, created: String
     let crew, edited, length, manufacturer: String
     let maxAtmospheringSpeed, model, name, passengers: String
@@ -22,4 +40,6 @@ struct Vehicle: Decodable {
     let films: [String]
     let url: String
     let vehicleClass: String
+    
+    var modelName: String { name }
 }

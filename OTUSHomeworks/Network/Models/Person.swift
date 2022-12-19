@@ -5,14 +5,32 @@
 //  Created by Илья Малахов on 18.12.2022.
 //
 
-struct People: Decodable {
+final class People: Decodable, ListModelProtocol {
+    typealias ElementsType = Person
+    
     let count: Int
     let next: String?
     let previous: String?
     let results: [Person]
+    
+    static var sectionName: String {
+        "people"
+    }
+    
+    var elements: [Person] {
+        results
+    }
+    
+    var hasNextElement: Bool {
+        next != nil
+    }
+    
+    func elementName(element: Person) -> String {
+        return element.name
+    }
 }
 
-struct Person: Decodable {
+final class Person: Decodable, ModelProtocol {
     let name: String
     let birth_year: String
     let eye_color: String
@@ -29,4 +47,6 @@ struct Person: Decodable {
     let url: String
     let created: String
     let edited: String
+    
+    var modelName: String { name }
 }

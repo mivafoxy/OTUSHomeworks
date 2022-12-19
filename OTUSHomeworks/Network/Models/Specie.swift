@@ -7,14 +7,28 @@
 
 import Foundation
 
-struct Species: Decodable {
+final class Species: Decodable, ListModelProtocol {
+    typealias ElementsType = Specie
+    
     let count: Int
     let next: String?
     let previous: String?
     let results: [Specie]
+    
+    static var sectionName: String {
+        "species"
+    }
+    
+    var elements: [Specie] {
+        results
+    }
+    
+    var hasNextElement: Bool {
+        next != nil
+    }
 }
 
-struct Specie: Decodable {
+final class Specie: Decodable, ModelProtocol {
     let averageHeight, averageLifespan, classification, created: String
     let designation, edited, eyeColors, hairColors: String
     let homeworld: String
@@ -22,4 +36,6 @@ struct Specie: Decodable {
     let people, films: [String]
     let skinColors: String
     let url: String
+    
+    var modelName: String { name }
 }

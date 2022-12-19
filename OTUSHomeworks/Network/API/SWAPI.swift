@@ -18,39 +18,12 @@ final class SWAPI {
     
     static var shared = SWAPI()
     
-    func fetchPeoplePage(pageNumber: Int) -> AnyPublisher<People, Error> {
-        let urlString = "\(baseUrl)/people/?page=\(pageNumber)"
-        let result: AnyPublisher<People, Error> = fetch(urlString: urlString)
-        return result
-    }
-    
-    func fetchFilmsPage(pageNumber: Int) -> AnyPublisher<Films, Error> {
-        let urlString = "\(baseUrl)/films/?page\(pageNumber)"
-        let result: AnyPublisher<Films, Error> = fetch(urlString: urlString)
-        return result
-    }
-    
-    func fetchStarhipsPage(pageNumber: Int) -> AnyPublisher<Starships, Error> {
-        let urlString = "\(baseUrl)/starships/?page\(pageNumber)"
-        let result: AnyPublisher<Starships, Error> = fetch(urlString: urlString)
-        return result
-    }
-    
-    func fetchVehiclesPage(pageNumber: Int) -> AnyPublisher<Vehicles, Error> {
-        let urlString = "\(baseUrl)/vehicles/?page\(pageNumber)"
-        let result: AnyPublisher<Vehicles, Error> = fetch(urlString: urlString)
-        return result
-    }
-    
-    func fetchSpeciesPage(pageNumber: Int) -> AnyPublisher<Species, Error> {
-        let urlString = "\(baseUrl)/species/?page\(pageNumber)"
-        let result: AnyPublisher<Species, Error> = fetch(urlString: urlString)
-        return result
-    }
-    
-    func fetchPlanetsPage(pageNumber: Int) -> AnyPublisher<Planets, Error> {
-        let urlString = "\(baseUrl)/planets/?page\(pageNumber)"
-        let result: AnyPublisher<Planets, Error> = fetch(urlString: urlString)
+    func fetchItemsPage<T: Decodable & ListModelProtocol>(
+        pageNumber: Int,
+        sectionName: String
+    ) -> AnyPublisher<T, Error> {
+        let urlString = "\(baseUrl)/\(sectionName)/?page=\(pageNumber)"
+        let result: AnyPublisher<T, Error> = fetch(urlString: urlString)
         return result
     }
     

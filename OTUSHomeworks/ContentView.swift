@@ -13,10 +13,7 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            Button("Press me!") {
-                let viewModel = PeopleViewModel()
-                viewModel.loadPeople()
-            }
+            ListViewScreen<People>()
         }
     }
 }
