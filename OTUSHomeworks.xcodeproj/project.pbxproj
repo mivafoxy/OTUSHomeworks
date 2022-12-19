@@ -15,6 +15,7 @@
 		EDE4C3AA2950AA9900F5D106 /* ListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE4C3A92950AA9900F5D106 /* ListViewModel.swift */; };
 		EDE4C3AC2950AF1900F5D106 /* ListModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE4C3AB2950AF1900F5D106 /* ListModelProtocol.swift */; };
 		EDE4C3B12950DFA400F5D106 /* ModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE4C3B02950DFA400F5D106 /* ModelProtocol.swift */; };
+		EDE4C3B42950ECDD00F5D106 /* Collections+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE4C3B32950ECDD00F5D106 /* Collections+Extensions.swift */; };
 		EDE6DAFA294F42B6009A00AD /* CustomNavigationStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE6DAF9294F42B6009A00AD /* CustomNavigationStack.swift */; };
 		EDE6DB00294F7DDF009A00AD /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE6DAFF294F7DDF009A00AD /* Person.swift */; };
 		EDE6DB02294F8150009A00AD /* Film.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE6DB01294F8150009A00AD /* Film.swift */; };
@@ -35,6 +36,7 @@
 		EDE4C3A92950AA9900F5D106 /* ListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModel.swift; sourceTree = "<group>"; };
 		EDE4C3AB2950AF1900F5D106 /* ListModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListModelProtocol.swift; sourceTree = "<group>"; };
 		EDE4C3B02950DFA400F5D106 /* ModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelProtocol.swift; sourceTree = "<group>"; };
+		EDE4C3B32950ECDD00F5D106 /* Collections+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collections+Extensions.swift"; sourceTree = "<group>"; };
 		EDE6DAF9294F42B6009A00AD /* CustomNavigationStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationStack.swift; sourceTree = "<group>"; };
 		EDE6DAFF294F7DDF009A00AD /* Person.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
 		EDE6DB01294F8150009A00AD /* Film.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Film.swift; sourceTree = "<group>"; };
@@ -75,6 +77,7 @@
 		ED0AE7BF2937E5910091EE70 /* OTUSHomeworks */ = {
 			isa = PBXGroup;
 			children = (
+				EDE4C3B22950ECAA00F5D106 /* Utils */,
 				EDE4C3A629509D8500F5D106 /* Views */,
 				EDE6DB0E294F98FB009A00AD /* ViewModels */,
 				EDE6DAFD294F70FB009A00AD /* Network */,
@@ -101,6 +104,14 @@
 				EDE4C3A729509E7B00F5D106 /* ListViewScreen.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		EDE4C3B22950ECAA00F5D106 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				EDE4C3B32950ECDD00F5D106 /* Collections+Extensions.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		EDE6DAF8294F428F009A00AD /* Navigation */ = {
@@ -230,6 +241,7 @@
 				EDE6DB0C294F83FD009A00AD /* SWAPI.swift in Sources */,
 				ED0AE7C32937E5910091EE70 /* ContentView.swift in Sources */,
 				EDE6DB04294F823B009A00AD /* Starship.swift in Sources */,
+				EDE4C3B42950ECDD00F5D106 /* Collections+Extensions.swift in Sources */,
 				EDE6DB08294F8321009A00AD /* Specie.swift in Sources */,
 				EDE6DB06294F82E8009A00AD /* Vehicle.swift in Sources */,
 				ED0AE7C12937E5910091EE70 /* OTUSHomeworksApp.swift in Sources */,

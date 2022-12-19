@@ -10,17 +10,17 @@ import Foundation
 final class Starships: Decodable, ListModelProtocol {
     typealias ElementsType = Starship
     
-    let count: Int
+    let count: Int?
     let next: String?
     let previous: String?
-    let results: [Starship]
+    let results: [Starship]?
     
     static var sectionName: String {
         "starships"
     }
     
     var elements: [Starship] {
-        results
+        results ?? []
     }
     
     var hasNextElement: Bool {
@@ -33,7 +33,7 @@ final class Starships: Decodable, ListModelProtocol {
 }
 
 final class Starship: Decodable, ModelProtocol {
-    let mglt, cargo_capacity, consumables, cost_in_credits: String
+    let MGLT, cargo_capacity, consumables, cost_in_credits: String
     let created, crew, edited, hyperdrive_rating: String
     let length, manufacturer, max_atmosphering_speed, model: String
     let name, passengers: String

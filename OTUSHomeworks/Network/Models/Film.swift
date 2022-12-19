@@ -10,17 +10,17 @@ import Foundation
 final class Films: Decodable, ListModelProtocol {
     typealias ElementsType = Film
     
-    let count: Int
+    let count: Int?
     let next: String?
     let previous: String?
-    let results: [Film]
+    let results: [Film]?
     
     static var sectionName: String {
         "films"
     }
     
     var elements: [Film] {
-        results
+        results ?? []
     }
     
     var hasNextElement: Bool {
@@ -38,7 +38,7 @@ final class Film: Decodable, ModelProtocol {
     let opening_crawl: String
     let director: String
     let producer: String
-    let release_date: Date
+    let release_date: String
     let species: [String]
     let starships: [String]
     let vehicles: [String]

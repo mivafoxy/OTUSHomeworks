@@ -10,17 +10,17 @@ import Foundation
 final class Vehicles: Decodable, ListModelProtocol {
     typealias ElementsType = Vehicle
     
-    let count: Int
+    let count: Int?
     let next: String?
     let previous: String?
-    let results: [Vehicle]
+    let results: [Vehicle]?
     
     static var sectionName: String {
         "vehicles"
     }
     
     var elements: [Vehicle] {
-        results
+        results ?? []
     }
     
     var hasNextElement: Bool {

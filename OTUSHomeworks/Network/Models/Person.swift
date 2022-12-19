@@ -8,17 +8,17 @@
 final class People: Decodable, ListModelProtocol {
     typealias ElementsType = Person
     
-    let count: Int
+    let count: Int?
     let next: String?
     let previous: String?
-    let results: [Person]
+    let results: [Person]?
     
     static var sectionName: String {
         "people"
     }
     
     var elements: [Person] {
-        results
+        results ?? []
     }
     
     var hasNextElement: Bool {

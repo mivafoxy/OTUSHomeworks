@@ -13,8 +13,13 @@ struct ListViewScreen<ModelType: Decodable & ListModelProtocol>: View {
     
     var body: some View {
         List {
-            ForEach(viewModel.model.items) { item in
-                Text(item.modelName)
+            ForEach(viewModel.model.items) { modelItem in
+                Text(modelItem.modelName)
+                    .onAppear {
+                        if viewModel.model.items.isLastItem(modelItem) {
+                            viewModel.fetchItems()
+                        }
+                    }
             }
         }
         .onAppear {

@@ -35,7 +35,8 @@ final class ListViewModel<ModelType: Decodable & ListModelProtocol>: ObservableO
     }
     
     private func didReceiveError(_ completion: Subscribers.Completion<Error>) {
-        if case .failure = completion {
+        if case let .failure(error) = completion {
+            print(error)
             model.hasNextPage = false
         }
     }

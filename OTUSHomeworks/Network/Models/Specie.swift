@@ -10,17 +10,17 @@ import Foundation
 final class Species: Decodable, ListModelProtocol {
     typealias ElementsType = Specie
     
-    let count: Int
+    let count: Int?
     let next: String?
     let previous: String?
-    let results: [Specie]
+    let results: [Specie]?
     
     static var sectionName: String {
         "species"
     }
     
     var elements: [Specie] {
-        results
+        results ?? []
     }
     
     var hasNextElement: Bool {
@@ -29,13 +29,21 @@ final class Species: Decodable, ListModelProtocol {
 }
 
 final class Specie: Decodable, ModelProtocol {
-    let average_height, average_lifespan, classification, created: String
-    let designation, edited, eye_colors, hair_colors: String
-    let homeworld: String
-    let language, name: String
-    let people, films: [String]
+    let name: String
+    let classification: String
+    let designation: String
+    let average_height: String
+    let average_lifespan: String
+    let eye_colors: String
+    let hair_colors: String
     let skin_colors: String
+    let language: String
+    let homeworld: String?
+    let people: [String]
+    let films: [String]
     let url: String
+    let created: String
+    let edited: String
     
     var modelName: String { name }
 }

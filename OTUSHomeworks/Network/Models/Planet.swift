@@ -10,17 +10,17 @@ import Foundation
 final class Planets: Decodable, ListModelProtocol {
     typealias ElementsType = Planet
     
-    let count: Int
+    let count: Int?
     let next: String?
     let previous: String?
-    let results: [Planet]
+    let results: [Planet]?
     
     static var sectionName: String {
         "planets"
     }
     
     var elements: [Planet] {
-        results
+        results ?? []
     }
     
     var hasNextElement: Bool {

@@ -34,7 +34,7 @@ final class SWAPI {
         
         return session
             .dataTaskPublisher(for: url)
-            .tryMap({ return try JSONDecoder().decode(T.self, from: $0.data) })
+            .tryMap({ try JSONDecoder().decode(T.self, from: $0.data) })
             .receive(on: DispatchQueue.main)
             .eraseToAnyPublisher()
     }
