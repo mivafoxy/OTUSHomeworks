@@ -31,9 +31,9 @@ final class Planets: Decodable, ListModelProtocol {
 final class Planet: Decodable, ModelProtocol {
     let climate, created, diameter, edited: String
     let films: [String]
-    let gravity, name, orbitalPeriod, population: String
+    let gravity, name, orbital_period, population: String
     let residents: [String]
-    let rotationPeriod, surfaceWater, terrain: String
+    let rotation_period, surface_water, terrain: String
     let url: String
     
     var modelName: String { name }

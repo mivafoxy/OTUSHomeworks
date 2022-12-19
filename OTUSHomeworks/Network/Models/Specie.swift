@@ -29,12 +29,12 @@ final class Species: Decodable, ListModelProtocol {
 }
 
 final class Specie: Decodable, ModelProtocol {
-    let averageHeight, averageLifespan, classification, created: String
-    let designation, edited, eyeColors, hairColors: String
+    let average_height, average_lifespan, classification, created: String
+    let designation, edited, eye_colors, hair_colors: String
     let homeworld: String
     let language, name: String
     let people, films: [String]
-    let skinColors: String
+    let skin_colors: String
     let url: String
     
     var modelName: String { name }

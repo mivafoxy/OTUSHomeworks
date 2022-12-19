@@ -33,13 +33,13 @@ final class Vehicles: Decodable, ListModelProtocol {
 }
 
 final class Vehicle: Decodable, ModelProtocol {
-    let cargoCapacity, consumables, costInCredits, created: String
+    let cargo_capacity, consumables, cost_in_credits, created: String
     let crew, edited, length, manufacturer: String
-    let maxAtmospheringSpeed, model, name, passengers: String
+    let max_atmosphering_speed, model, name, passengers: String
     let pilots: [String]
     let films: [String]
     let url: String
-    let vehicleClass: String
+    let vehicle_class: String
     
     var modelName: String { name }
 }

@@ -33,13 +33,13 @@ final class Starships: Decodable, ListModelProtocol {
 }
 
 final class Starship: Decodable, ModelProtocol {
-    let mglt, cargoCapacity, consumables, costInCredits: String
-    let created, crew, edited, hyperdriveRating: String
-    let length, manufacturer, maxAtmospheringSpeed, model: String
+    let mglt, cargo_capacity, consumables, cost_in_credits: String
+    let created, crew, edited, hyperdrive_rating: String
+    let length, manufacturer, max_atmosphering_speed, model: String
     let name, passengers: String
     let films: [String]
     let pilots: [String]
-    let starshipClass: String
+    let starship_class: String
     let url: String
     
     var modelName: String { name }
