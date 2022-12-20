@@ -8,25 +8,21 @@
 import SwiftUI
 
 struct ContentView: View {
+    init() {
+        UIPageControl.appearance().currentPageIndicatorTintColor = .red
+        UIPageControl.appearance().pageIndicatorTintColor = UIColor.red.withAlphaComponent(0.2)
+    }
+    
     var body: some View {
-        GeometryReader { g in
-            ScrollView(.horizontal) {
-                HStack {
-                    ListViewScreen<People>()
-                        .frame(width: g.size.width - 5, height: g.size.height - 50, alignment: .center)
-                    ListViewScreen<Films>()
-                        .frame(width: g.size.width - 5, height: g.size.height - 50, alignment: .center)
-                    ListViewScreen<Starships>()
-                        .frame(width: g.size.width - 5, height: g.size.height - 50, alignment: .center)
-                    ListViewScreen<Vehicles>()
-                        .frame(width: g.size.width - 5, height: g.size.height - 50, alignment: .center)
-                    ListViewScreen<Species>()
-                        .frame(width: g.size.width - 5, height: g.size.height - 50, alignment: .center)
-                    ListViewScreen<Planets>()
-                        .frame(width: g.size.width - 5, height: g.size.height - 50, alignment: .center)
-                }
-            }
+        TabView {
+            ListViewScreen<People>()
+            ListViewScreen<Films>()
+            ListViewScreen<Starships>()
+            ListViewScreen<Vehicles>()
+            ListViewScreen<Species>()
+            ListViewScreen<Planets>()
         }
+        .tabViewStyle(.page(indexDisplayMode: .always))
     }
 }
 
