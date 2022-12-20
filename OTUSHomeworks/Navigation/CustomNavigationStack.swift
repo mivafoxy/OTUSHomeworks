@@ -84,7 +84,7 @@ final class NavigationStackViewModel: ObservableObject {
     }
 }
 
-final class NavigationStackView<Content>: View where Content: View {
+struct NavigationStackView<Content>: View where Content: View {
     private let content: Content
     private let transition: (push: AnyTransition, pop: AnyTransition)
     @ObservedObject private var viewModel: NavigationStackViewModel

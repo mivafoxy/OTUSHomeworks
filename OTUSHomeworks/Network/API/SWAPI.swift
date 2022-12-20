@@ -28,6 +28,11 @@ final class SWAPI {
         return result
     }
     
+    func fetchItem<T: Decodable & ModelProtocol>(urlString: String) -> AnyPublisher<T, Error> {
+        let result: AnyPublisher<T, Error> = fetch(urlString: urlString)
+        return result
+    }
+    
     private func fetch<T: Decodable>(urlString: String) -> AnyPublisher<T, Error> {
         guard let url = URL(string: urlString) else {
             return Fail(error: SWAPIError.networkError).eraseToAnyPublisher()

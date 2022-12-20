@@ -15,12 +15,29 @@ struct ContentView: View {
     
     var body: some View {
         TabView {
-            ListViewScreen<People>()
-            ListViewScreen<Films>()
-            ListViewScreen<Starships>()
-            ListViewScreen<Vehicles>()
-            ListViewScreen<Species>()
-            ListViewScreen<Planets>()
+            NavigationStackView(transition: .custom(push: .slide, pop: .slide)) {
+                ListViewScreen<People>()
+            }
+            
+            NavigationStackView(transition: .custom(push: .slide, pop: .slide)) {
+                ListViewScreen<Films>()
+            }
+             
+            NavigationStackView(transition: .custom(push: .slide, pop: .slide)) {
+                ListViewScreen<Starships>()
+            }
+            
+            NavigationStackView(transition: .custom(push: .slide, pop: .slide)) {
+                ListViewScreen<Vehicles>()
+            }
+            
+            NavigationStackView(transition: .custom(push: .slide, pop: .slide)) {
+                ListViewScreen<Species>()
+            }
+            
+            NavigationStackView(transition: .custom(push: .slide, pop: .slide)) {
+                ListViewScreen<Planets>()
+            }
         }
         .tabViewStyle(.page(indexDisplayMode: .always))
     }

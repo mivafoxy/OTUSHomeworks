@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct ListViewScreen<ModelType: Decodable & ListModelProtocol>: View {
-    @State private var isActionSheetPresented = false
     @ObservedObject var viewModel = ListViewModel<ModelType>()
     @EnvironmentObject private var navigation: NavigationStackViewModel
     
@@ -24,6 +23,10 @@ struct ListViewScreen<ModelType: Decodable & ListModelProtocol>: View {
             List {
                 ForEach(viewModel.model.items) { modelItem in
                     Text(modelItem.modelName)
+                        .onTapGesture {
+                            let view = ViewMapper.makeView(from: modelItem)
+                            navigation.push(newView: view)
+                        }
                         .onAppear {
                             if viewModel.isLast(item: modelItem) {
                                 viewModel.fetchItems()

@@ -18,16 +18,12 @@ final class ListViewModel<ModelType: Decodable & ListModelProtocol>: ObservableO
         var currentPage = 1
     }
     
-    enum State {
-        case idle, loading, subloading, finished, error
-    }
-    
     // MARK: - Properties
     
     private let waitTimeInSec = 60
     private var anyCancellables = Set<AnyCancellable>()
     @Published private(set) var model = Model()
-    @Published private(set) var loadingState = State.idle
+    @Published private(set) var loadingState = ViewModelLoadState.idle
     
     // MARK: - Network handlers
     
