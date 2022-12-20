@@ -19,16 +19,23 @@ struct ListViewScreen<ModelType: Decodable & ListModelProtocol>: View {
                 viewModel.fetchItems()
             }
         case .loading:
-            ProgressView("Loading...")
+            ProgressView("Загрузка...")
         case .finished, .subloading:
             List {
                 ForEach(viewModel.model.items) { modelItem in
                     Text(modelItem.modelName)
                         .onAppear {
-                            if viewModel.model.items.isLastItem(modelItem) {
+                            if viewModel.isLast(item: modelItem) {
                                 viewModel.fetchItems()
                             }
                         }
+                    
+                    if viewModel.model.hasNextPage && viewModel.isLast(item:modelItem) {
+                        ProgressView("Загрузка элементов")
+                            .frame(idealWidth: .infinity,
+                                   maxWidth: .infinity,
+                                   alignment: .center)
+                    }
                 }
             }
         case .error:

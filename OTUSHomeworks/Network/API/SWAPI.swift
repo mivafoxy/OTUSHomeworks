@@ -8,8 +8,9 @@
 import Foundation
 import Combine
 
-struct NetworkError: Error {
-    var error: String
+enum SWAPIError: Error {
+    case timeoutError
+    case networkError
 }
 
 final class SWAPI {
@@ -29,7 +30,7 @@ final class SWAPI {
     
     private func fetch<T: Decodable>(urlString: String) -> AnyPublisher<T, Error> {
         guard let url = URL(string: urlString) else {
-            return Fail(error: NetworkError(error: "Invalid URL")).eraseToAnyPublisher()
+            return Fail(error: SWAPIError.networkError).eraseToAnyPublisher()
         }
         
         return session

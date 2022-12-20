@@ -24,10 +24,12 @@ final class ListViewModel<ModelType: Decodable & ListModelProtocol>: ObservableO
     
     // MARK: - Properties
     
-    private let waitTimeInSec = 10
+    private let waitTimeInSec = 60
     private var anyCancellables = Set<AnyCancellable>()
     @Published private(set) var model = Model()
     @Published private(set) var loadingState = State.idle
+    
+    // MARK: - Network handlers
     
     func fetchItems() {
         loadingState = model.items.isEmpty ? .loading : .subloading
@@ -36,7 +38,7 @@ final class ListViewModel<ModelType: Decodable & ListModelProtocol>: ObservableO
             .fetchItemsPage(
                 pageNumber: model.currentPage,
                 sectionName: ModelType.sectionName)
-            .timeout(.seconds(waitTimeInSec), scheduler: DispatchQueue.main)
+            .timeout(.seconds(waitTimeInSec), scheduler: DispatchQueue.main, customError: { SWAPIError.timeoutError })
             .sink(
                 receiveCompletion: didReceiveError(_:),
                 receiveValue: didReceive(_:))
@@ -44,9 +46,13 @@ final class ListViewModel<ModelType: Decodable & ListModelProtocol>: ObservableO
     }
     
     private func didReceiveError(_ completion: Subscribers.Completion<Error>) {
-        guard case .finished = completion else { return }
-        loadingState = .error
-        model.hasNextPage = false
+        switch completion {
+        case .finished:
+            loadingState = .finished
+        case .failure:
+            loadingState = .error
+            model.hasNextPage = false
+        }
     }
     
     private func didReceive(_ item: ModelType) {
@@ -54,5 +60,11 @@ final class ListViewModel<ModelType: Decodable & ListModelProtocol>: ObservableO
         model.hasNextPage = item.hasNextElement
         model.currentPage += 1
         loadingState = .finished
+    }
+    
+    // MARK: - Helpers
+    
+    func isLast(item: ModelType.ElementsType) -> Bool {
+        model.items.isLastItem(item)
     }
 }
