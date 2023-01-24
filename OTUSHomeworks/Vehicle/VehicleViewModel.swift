@@ -27,6 +27,8 @@ final class VehicleViewModel: ObservableObject {
     private let urlStringToFetch: String
     private let waitTimeInSec = 60
     private var anyCancellables = Set<AnyCancellable>()
+    // 3. Добавить инжектинг в переменные инстанса класса,
+    // чтобы в каждом классе можно было видеть зависимости, не скролля файл
     @Injected var networkService: SWAPIServiceProtocol?
     @Published private(set) var loadState: ViewModelLoadState
     @Published private(set) var model: VehicleModel

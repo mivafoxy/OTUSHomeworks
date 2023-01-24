@@ -24,6 +24,8 @@ final class ListViewModel<ModelType: Decodable & ListModelProtocol>: ObservableO
     
     private let waitTimeInSec = 60
     private var anyCancellables = Set<AnyCancellable>()
+    // 3. Добавить инжектинг в переменные инстанса класса,
+    // чтобы в каждом классе можно было видеть зависимости, не скролля файл
     @Injected private var viewMapperService: ViewMapperServiceProtocol?
     @Injected private var networkService: SWAPIServiceProtocol?
     @Published private(set) var model = Model()
