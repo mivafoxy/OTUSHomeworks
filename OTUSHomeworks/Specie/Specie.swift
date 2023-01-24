@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SWAPICore
 
 final class Species: Decodable, ListModelProtocol {
     typealias ElementsType = Specie

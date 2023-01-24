@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SWAPICore
 
 final class Films: Decodable, ListModelProtocol {
     typealias ElementsType = Film

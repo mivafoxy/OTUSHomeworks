@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SWAPICore
 
 final class Planets: Decodable, ListModelProtocol {
     typealias ElementsType = Planet

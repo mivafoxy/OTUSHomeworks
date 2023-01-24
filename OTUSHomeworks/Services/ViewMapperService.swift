@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SWAPICore
 
 protocol ViewMapperServiceProtocol {
     func makeView(from item: any ModelProtocol) -> any View

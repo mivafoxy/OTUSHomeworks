@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "swapicore",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/mivafoxy/SWAPICore.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "64f79c8bdec388b33f15525459a0efec0459636e"
+      }
+    }
+  ],
+  "version" : 2
+}

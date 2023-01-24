@@ -25,11 +25,9 @@
 		ED2BF4E02952380700192B77 /* PlanetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2BF4DF2952380700192B77 /* PlanetViewModel.swift */; };
 		ED2BF4E229523AE000192B77 /* SpecieViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2BF4E129523AE000192B77 /* SpecieViewModel.swift */; };
 		ED2BF4E429523EF400192B77 /* VehicleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2BF4E329523EF400192B77 /* VehicleViewModel.swift */; };
-		ED61EF3B29805ABC007EEDBC /* ServiceLocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED61EF3A29805ABC007EEDBC /* ServiceLocator.swift */; };
+		ED61EF42298089F8007EEDBC /* SWAPICore in Frameworks */ = {isa = PBXBuildFile; productRef = ED61EF41298089F8007EEDBC /* SWAPICore */; };
 		EDE4C3A829509E7B00F5D106 /* ListViewScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE4C3A729509E7B00F5D106 /* ListViewScreen.swift */; };
 		EDE4C3AA2950AA9900F5D106 /* ListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE4C3A92950AA9900F5D106 /* ListViewModel.swift */; };
-		EDE4C3AC2950AF1900F5D106 /* ListModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE4C3AB2950AF1900F5D106 /* ListModelProtocol.swift */; };
-		EDE4C3B12950DFA400F5D106 /* ModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE4C3B02950DFA400F5D106 /* ModelProtocol.swift */; };
 		EDE4C3B42950ECDD00F5D106 /* Collections+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE4C3B32950ECDD00F5D106 /* Collections+Extensions.swift */; };
 		EDE6DAFA294F42B6009A00AD /* CustomNavigationStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE6DAF9294F42B6009A00AD /* CustomNavigationStack.swift */; };
 		EDE6DB00294F7DDF009A00AD /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE6DAFF294F7DDF009A00AD /* Person.swift */; };
@@ -38,7 +36,6 @@
 		EDE6DB06294F82E8009A00AD /* Vehicle.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE6DB05294F82E8009A00AD /* Vehicle.swift */; };
 		EDE6DB08294F8321009A00AD /* Specie.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE6DB07294F8321009A00AD /* Specie.swift */; };
 		EDE6DB0A294F834F009A00AD /* Planet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE6DB09294F834F009A00AD /* Planet.swift */; };
-		EDE6DB0C294F83FD009A00AD /* SWAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE6DB0B294F83FD009A00AD /* SWAPIService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,11 +58,8 @@
 		ED2BF4DF2952380700192B77 /* PlanetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanetViewModel.swift; sourceTree = "<group>"; };
 		ED2BF4E129523AE000192B77 /* SpecieViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecieViewModel.swift; sourceTree = "<group>"; };
 		ED2BF4E329523EF400192B77 /* VehicleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleViewModel.swift; sourceTree = "<group>"; };
-		ED61EF3A29805ABC007EEDBC /* ServiceLocator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceLocator.swift; sourceTree = "<group>"; };
 		EDE4C3A729509E7B00F5D106 /* ListViewScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewScreen.swift; sourceTree = "<group>"; };
 		EDE4C3A92950AA9900F5D106 /* ListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModel.swift; sourceTree = "<group>"; };
-		EDE4C3AB2950AF1900F5D106 /* ListModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListModelProtocol.swift; sourceTree = "<group>"; };
-		EDE4C3B02950DFA400F5D106 /* ModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelProtocol.swift; sourceTree = "<group>"; };
 		EDE4C3B32950ECDD00F5D106 /* Collections+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collections+Extensions.swift"; sourceTree = "<group>"; };
 		EDE6DAF9294F42B6009A00AD /* CustomNavigationStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationStack.swift; sourceTree = "<group>"; };
 		EDE6DAFF294F7DDF009A00AD /* Person.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
@@ -74,7 +68,6 @@
 		EDE6DB05294F82E8009A00AD /* Vehicle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vehicle.swift; sourceTree = "<group>"; };
 		EDE6DB07294F8321009A00AD /* Specie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Specie.swift; sourceTree = "<group>"; };
 		EDE6DB09294F834F009A00AD /* Planet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Planet.swift; sourceTree = "<group>"; };
-		EDE6DB0B294F83FD009A00AD /* SWAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SWAPIService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +75,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ED61EF42298089F8007EEDBC /* SWAPICore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -107,7 +101,6 @@
 		ED0AE7BF2937E5910091EE70 /* OTUSHomeworks */ = {
 			isa = PBXGroup;
 			children = (
-				ED61EF3E29808584007EEDBC /* Core */,
 				ED61EF39298059FC007EEDBC /* ListView */,
 				ED61EF38298059A0007EEDBC /* Services */,
 				ED61EF372980592C007EEDBC /* Specie */,
@@ -211,15 +204,6 @@
 			path = ListView;
 			sourceTree = "<group>";
 		};
-		ED61EF3E29808584007EEDBC /* Core */ = {
-			isa = PBXGroup;
-			children = (
-				EDE6DAFD294F70FB009A00AD /* Network */,
-				ED61EF3A29805ABC007EEDBC /* ServiceLocator.swift */,
-			);
-			path = Core;
-			sourceTree = "<group>";
-		};
 		EDE4C3B22950ECAA00F5D106 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -227,16 +211,6 @@
 				EDE4C3B32950ECDD00F5D106 /* Collections+Extensions.swift */,
 			);
 			path = Utils;
-			sourceTree = "<group>";
-		};
-		EDE6DAFD294F70FB009A00AD /* Network */ = {
-			isa = PBXGroup;
-			children = (
-				EDE6DB0B294F83FD009A00AD /* SWAPIService.swift */,
-				EDE4C3AB2950AF1900F5D106 /* ListModelProtocol.swift */,
-				EDE4C3B02950DFA400F5D106 /* ModelProtocol.swift */,
-			);
-			path = Network;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -255,6 +229,9 @@
 			dependencies = (
 			);
 			name = OTUSHomeworks;
+			packageProductDependencies = (
+				ED61EF41298089F8007EEDBC /* SWAPICore */,
+			);
 			productName = OTUSHomeworks;
 			productReference = ED0AE7BD2937E5910091EE70 /* OTUSHomeworks.app */;
 			productType = "com.apple.product-type.application";
@@ -283,6 +260,9 @@
 				Base,
 			);
 			mainGroup = ED0AE7B42937E5910091EE70;
+			packageReferences = (
+				ED61EF40298089F8007EEDBC /* XCRemoteSwiftPackageReference "SWAPICore" */,
+			);
 			productRefGroup = ED0AE7BE2937E5910091EE70 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -309,18 +289,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EDE4C3AC2950AF1900F5D106 /* ListModelProtocol.swift in Sources */,
 				EDE4C3A829509E7B00F5D106 /* ListViewScreen.swift in Sources */,
 				ED2BF4D629520F0600192B77 /* PlanetViewScreen.swift in Sources */,
 				EDE6DB02294F8150009A00AD /* Film.swift in Sources */,
 				ED2BF4CA2951F1B300192B77 /* PersonViewScreen.swift in Sources */,
 				ED2BF4CC2951F1C000192B77 /* PersonViewModel.swift in Sources */,
-				ED61EF3B29805ABC007EEDBC /* ServiceLocator.swift in Sources */,
 				EDE6DB00294F7DDF009A00AD /* Person.swift in Sources */,
 				EDE4C3AA2950AA9900F5D106 /* ListViewModel.swift in Sources */,
 				ED2BF4D02951FF8500192B77 /* ViewMapperService.swift in Sources */,
-				EDE4C3B12950DFA400F5D106 /* ModelProtocol.swift in Sources */,
-				EDE6DB0C294F83FD009A00AD /* SWAPIService.swift in Sources */,
 				ED0AE7C32937E5910091EE70 /* ContentView.swift in Sources */,
 				EDE6DB04294F823B009A00AD /* Starship.swift in Sources */,
 				ED2BF4E229523AE000192B77 /* SpecieViewModel.swift in Sources */,
@@ -541,6 +517,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		ED61EF40298089F8007EEDBC /* XCRemoteSwiftPackageReference "SWAPICore" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mivafoxy/SWAPICore.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		ED61EF41298089F8007EEDBC /* SWAPICore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = ED61EF40298089F8007EEDBC /* XCRemoteSwiftPackageReference "SWAPICore" */;
+			productName = SWAPICore;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = ED0AE7B52937E5910091EE70 /* Project object */;
 }

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SWAPICore
 
 struct ListViewScreen<ModelType: Decodable & ListModelProtocol>: View {
     

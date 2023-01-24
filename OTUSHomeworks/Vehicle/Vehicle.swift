@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SWAPICore
 
 final class Vehicles: Decodable, ListModelProtocol {
     typealias ElementsType = Vehicle

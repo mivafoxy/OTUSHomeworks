@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SWAPICore
 
 @main
 struct OTUSHomeworksApp: App {

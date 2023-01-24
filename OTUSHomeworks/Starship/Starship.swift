@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SWAPICore
 
 final class Starships: Decodable, ListModelProtocol {
     typealias ElementsType = Starship
