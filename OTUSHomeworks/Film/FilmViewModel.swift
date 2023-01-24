@@ -34,7 +34,7 @@ final class FilmViewModel: ObservableObject {
     private let urlStringToFetch: String
     private let waitTimeInSec = 60
     private var anyCancellables = Set<AnyCancellable>()
-    
+    @Injected var networkService: SWAPIServiceProtocol?
     @Published private(set) var loadState: ViewModelLoadState
     @Published private(set) var model: FilmModel
     
@@ -82,16 +82,18 @@ final class FilmViewModel: ObservableObject {
     
     func fetchFilm() {
         loadState = .loading
-        SWAPI
-            .shared
-            .fetchItem(urlString: urlStringToFetch)
-            .timeout(.seconds(waitTimeInSec),
-                     scheduler: DispatchQueue.main,
-                     customError: { SWAPIError.timeoutError })
+        networkService?
+            .fetchItem(
+                urlString: urlStringToFetch)
+            .timeout(
+                .seconds(waitTimeInSec),
+                scheduler: DispatchQueue.main,
+                customError: { SWAPIError.timeoutError })
             .sink(
                 receiveCompletion: didReceive(completion:),
                 receiveValue: didReceive(item:))
-            .store(in: &anyCancellables)
+            .store(
+                in: &anyCancellables)
     }
     
     private func didReceive(completion: Subscribers.Completion<Error>) {

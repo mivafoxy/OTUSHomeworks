@@ -8,8 +8,12 @@
 import SwiftUI
 
 struct ListViewScreen<ModelType: Decodable & ListModelProtocol>: View {
-    @ObservedObject var viewModel = ListViewModel<ModelType>()
-    @EnvironmentObject private var navigation: NavigationStackViewModel
+    
+    @ObservedObject
+    var viewModel = ListViewModel<ModelType>()
+    
+    @EnvironmentObject
+    private var navigation: NavigationStackViewModel
     
     var body: some View {
         switch viewModel.loadingState {
@@ -24,7 +28,11 @@ struct ListViewScreen<ModelType: Decodable & ListModelProtocol>: View {
                 ForEach(viewModel.model.items) { modelItem in
                     Text(modelItem.modelName)
                         .onTapGesture {
-                            let view = ViewMapper.makeView(from: modelItem)
+                            guard
+                                let view = viewModel.getView(for: modelItem)
+                            else {
+                                return
+                            }
                             navigation.push(newView: view)
                         }
                         .onAppear {
@@ -51,6 +59,6 @@ struct ListViewScreen<ModelType: Decodable & ListModelProtocol>: View {
 
 struct PeopleListView_Previews: PreviewProvider {
     static var previews: some View {
-        ListViewScreen<People>()
+        EmptyView()
     }
 }

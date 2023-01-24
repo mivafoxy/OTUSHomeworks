@@ -28,7 +28,7 @@ final class StarshipViewModel: ObservableObject {
     private let urlStringToFetch: String
     private let waitTimeInSec = 60
     private var anyCancellables = Set<AnyCancellable>()
-    
+    @Injected private var networkService: SWAPIServiceProtocol?
     @Published private(set) var loadState: ViewModelLoadState
     @Published private(set) var model: StarshipModel
     
@@ -84,14 +84,17 @@ final class StarshipViewModel: ObservableObject {
     
     func fetchStarship() {
         loadState = .loading
-        SWAPI.shared
+        networkService?
             .fetchItem(urlString: urlStringToFetch)
-            .timeout(.seconds(waitTimeInSec),
-                     scheduler: DispatchQueue.main,
-                     customError: { SWAPIError.timeoutError })
-            .sink(receiveCompletion: didReceive(completion:),
-                  receiveValue: didReceive(item:))
-            .store(in: &anyCancellables)
+            .timeout(
+                .seconds(waitTimeInSec),
+                scheduler: DispatchQueue.main,
+                customError: { SWAPIError.timeoutError })
+            .sink(
+                receiveCompletion: didReceive(completion:),
+                receiveValue: didReceive(item:))
+            .store(
+                in: &anyCancellables)
     }
     
     private func didReceive(completion: Subscribers.Completion<Error>) {

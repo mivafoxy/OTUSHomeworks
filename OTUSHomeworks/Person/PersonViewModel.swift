@@ -35,7 +35,7 @@ final class PersonViewModel: ObservableObject {
     private let urlStringToFetch: String
     private let waitTimeInSec = 60
     private var anyCancellables = Set<AnyCancellable>()
-    
+    @Injected var networkService: SWAPIServiceProtocol?
     @Published var loadState: ViewModelLoadState
     @Published var model: PersonModel
     
@@ -85,14 +85,18 @@ final class PersonViewModel: ObservableObject {
     
     func fetchPerson() {
         loadState = .loading
-        SWAPI.shared
-            .fetchItem(urlString: urlStringToFetch)
-            .timeout(.seconds(waitTimeInSec),
-                     scheduler: DispatchQueue.main,
-                     customError: { SWAPIError.timeoutError })
-            .sink(receiveCompletion: didReceive(completion:),
-                  receiveValue: didReceive(response:))
-            .store(in: &anyCancellables)
+        networkService?
+            .fetchItem(
+                urlString: urlStringToFetch)
+            .timeout(
+                .seconds(waitTimeInSec),
+                scheduler: DispatchQueue.main,
+                customError: { SWAPIError.timeoutError })
+            .sink(
+                receiveCompletion: didReceive(completion:),
+                receiveValue: didReceive(response:))
+            .store(
+                in: &anyCancellables)
     }
     
     private func didReceive(completion: Subscribers.Completion<Error>) {

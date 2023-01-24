@@ -7,9 +7,13 @@
 
 import SwiftUI
 
-final class ViewMapper {
+protocol ViewMapperServiceProtocol {
+    func makeView(from item: any ModelProtocol) -> any View
+}
+
+final class ViewMapperService: ViewMapperServiceProtocol {
     
-    static func makeView(from item: any ModelProtocol) -> any View {
+    func makeView(from item: any ModelProtocol) -> any View {
         if let person = item as? Person {
             return PersonViewScreen(person)
         } else if let film = item as? Film {

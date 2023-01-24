@@ -7,6 +7,7 @@
 
 import Combine
 import Foundation
+import SwiftUI
 
 final class ListViewModel<ModelType: Decodable & ListModelProtocol>: ObservableObject {
     
@@ -22,23 +23,35 @@ final class ListViewModel<ModelType: Decodable & ListModelProtocol>: ObservableO
     
     private let waitTimeInSec = 60
     private var anyCancellables = Set<AnyCancellable>()
+    @Injected private var viewMapperService: ViewMapperServiceProtocol?
+    @Injected private var networkService: SWAPIServiceProtocol?
     @Published private(set) var model = Model()
     @Published private(set) var loadingState = ViewModelLoadState.idle
+    
+    // MARK: - Business logic
+    
+    func getView(for item: ModelType.ElementsType) -> (any View)? {
+        viewMapperService?.makeView(from: item)
+    }
     
     // MARK: - Network handlers
     
     func fetchItems() {
         loadingState = model.items.isEmpty ? .loading : .subloading
-        SWAPI
-            .shared
+        
+        networkService?
             .fetchItemsPage(
                 pageNumber: model.currentPage,
                 sectionName: ModelType.sectionName)
-            .timeout(.seconds(waitTimeInSec), scheduler: DispatchQueue.main, customError: { SWAPIError.timeoutError })
+            .timeout(
+                .seconds(waitTimeInSec),
+                scheduler: DispatchQueue.main,
+                customError: { SWAPIError.timeoutError })
             .sink(
                 receiveCompletion: didReceiveError(_:),
                 receiveValue: didReceive(_:))
-            .store(in: &anyCancellables)
+            .store(
+                in: &anyCancellables)
     }
     
     private func didReceiveError(_ completion: Subscribers.Completion<Error>) {

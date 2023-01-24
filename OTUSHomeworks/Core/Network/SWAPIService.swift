@@ -8,17 +8,23 @@
 import Foundation
 import Combine
 
+protocol SWAPIServiceProtocol {
+    func fetchItem<T: Decodable & ModelProtocol>(urlString: String) -> AnyPublisher<T, Error>
+    func fetchItemsPage<T: Decodable & ListModelProtocol>(
+        pageNumber: Int,
+        sectionName: String
+    ) -> AnyPublisher<T, Error>
+}
+
 enum SWAPIError: Error {
     case timeoutError
     case networkError
 }
 
-final class SWAPI {
+final class SWAPIService: SWAPIServiceProtocol {
     private let baseUrl = "https://swapi.dev/api/"
     private let session = URLSession.shared
-    
-    static var shared = SWAPI()
-    
+        
     func fetchItemsPage<T: Decodable & ListModelProtocol>(
         pageNumber: Int,
         sectionName: String
