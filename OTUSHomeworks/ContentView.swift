@@ -8,14 +8,23 @@
 import SwiftUI
 
 struct ContentView: View {
+    init() {
+        UIPageControl.appearance().currentPageIndicatorTintColor = .red
+        UIPageControl.appearance().pageIndicatorTintColor = UIColor.red.withAlphaComponent(0.2)
+    }
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+        NavigationStackView(transition: .custom(push: .slide, pop: .slide)) {
+            TabView {
+                ListViewScreen<People>()
+                ListViewScreen<Films>()
+                ListViewScreen<Starships>()
+                ListViewScreen<Vehicles>()
+                ListViewScreen<Species>()
+                ListViewScreen<Planets>()
+            }
+            .tabViewStyle(.page(indexDisplayMode: .always))
         }
-        .padding()
     }
 }
 
