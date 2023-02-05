@@ -8,22 +8,30 @@
 import SwiftUI
 
 struct VehicleViewScreen: View {
+    
+    // MARK: - Properties
+    
+    private let actionCreator = VehicleActionCreator()
     @EnvironmentObject private var navigation: NavigationStackViewModel
-    @ObservedObject private var viewModel: VehicleViewModel
+    @ObservedObject private var viewModel: VehicleStore
+    
+    // MARK: - Initializers
     
     init(_ item: Vehicle) {
-        viewModel = VehicleViewModel(from: item)
+        viewModel = VehicleStore(from: item)
     }
     
     init(_ urlString: String) {
-        viewModel = VehicleViewModel(urlString: urlString)
+        viewModel = VehicleStore(urlString: urlString)
     }
+    
+    // MARK: - View
     
     var body: some View {
         switch viewModel.loadState {
         case .idle:
             Color.clear.onAppear {
-                viewModel.fetchStarship()
+                actionCreator.fetch(with: viewModel.urlStringToFetch)
             }
         case .loading:
             ProgressView("Загрузка...")
@@ -31,7 +39,7 @@ struct VehicleViewScreen: View {
             mainBody
         case .error, .subloading:
             Button("Попробовать снова.") {
-                viewModel.fetchStarship()
+                actionCreator.fetch(with: viewModel.urlStringToFetch)
             }
         }
     }

@@ -9,7 +9,14 @@ import SwiftUI
 import Combine
 import SWAPICore
 
-final class SpecieViewModel: ObservableObject {
+enum SpecieAction: FluxAction {
+    case loaded(item: Specie)
+    case failure
+    case finished
+}
+
+final class SpecieStore: FluxStore {
+    
     // MARK: - Types
     
     struct SpecieModel {
@@ -32,14 +39,10 @@ final class SpecieViewModel: ObservableObject {
     
     // MARK: - Properties
     
-    private let urlStringToFetch: String
-    private let waitTimeInSec = 60
-    private var anyCancellables = Set<AnyCancellable>()
-    // 3. Добавить инжектинг в переменные инстанса класса,
-    // чтобы в каждом классе можно было видеть зависимости, не скролля файл
-    @Injected var networkService: SWAPIServiceProtocol?
     @Published private(set) var loadState: ViewModelLoadState
     @Published private(set) var model: SpecieModel
+    @Injected private var dispatcher: AppDispatcher?
+    let urlStringToFetch: String
     
     // MARK: - Inits
     
@@ -61,6 +64,7 @@ final class SpecieViewModel: ObservableObject {
                             created: item.created,
                             edited: item.edited)
         urlStringToFetch = item.url
+        dispatcher?.register(actionType: SpecieAction.self, for: self)
     }
     
     init(urlString: String) {
@@ -81,32 +85,25 @@ final class SpecieViewModel: ObservableObject {
                             created: "",
                             edited: "")
         urlStringToFetch = urlString
+        dispatcher?.register(actionType: SpecieAction.self, for: self)
     }
     
-    // MARK: - Network methods
+    // MARK: - FluxStore
     
-    func fetchPlanet() {
-        loadState = .loading
-        networkService?
-            .fetchItem(
-                urlString: urlStringToFetch)
-            .timeout(
-                .seconds(waitTimeInSec),
-                scheduler: DispatchQueue.main,
-                customError: { SWAPIError.timeoutError })
-            .sink(
-                receiveCompletion: didReceive(completion:),
-                receiveValue: didReceive(item:))
-            .store(
-                in: &anyCancellables)
-    }
-    
-    private func didReceive(completion: Subscribers.Completion<Error>) {
-        switch completion {
-        case .finished:
-            loadState = .finished
+    func onDispatch(with action: FluxAction) {
+        guard
+            let action = action as? SpecieAction
+        else {
+            return
+        }
+        
+        switch action {
+        case let .loaded(item):
+            didReceive(item: item)
         case .failure:
             loadState = .error
+        case .finished:
+            loadState = .finished
         }
     }
     

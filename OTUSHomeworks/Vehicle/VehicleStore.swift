@@ -9,7 +9,14 @@ import SwiftUI
 import Combine
 import SWAPICore
 
-final class VehicleViewModel: ObservableObject {
+enum VehicleAction: FluxAction {
+    case loaded(item: Vehicle)
+    case failure
+    case finished
+}
+
+final class VehicleStore: FluxStore {
+
     // MARK: - Types
     
     struct VehicleModel {
@@ -24,14 +31,14 @@ final class VehicleViewModel: ObservableObject {
     
     // MARK: - Properties
     
-    private let urlStringToFetch: String
     private let waitTimeInSec = 60
     private var anyCancellables = Set<AnyCancellable>()
     // 3. Добавить инжектинг в переменные инстанса класса,
     // чтобы в каждом классе можно было видеть зависимости, не скролля файл
-    @Injected var networkService: SWAPIServiceProtocol?
+    @Injected private var dispatcher: FluxDispatcher?
     @Published private(set) var loadState: ViewModelLoadState
     @Published private(set) var model: VehicleModel
+    let urlStringToFetch: String
     
     // MARK: - Inits
     
@@ -75,32 +82,25 @@ final class VehicleViewModel: ObservableObject {
                              url: "",
                             vehicleClass: "")
         urlStringToFetch = urlString
+        dispatcher?.register(actionType: VehicleAction.self, for: self)
     }
     
-    // MARK: - Network methods
+    // MARK: - Flux store
     
-    func fetchStarship() {
-        loadState = .loading
-        networkService?
-            .fetchItem(
-                urlString: urlStringToFetch)
-            .timeout(
-                .seconds(waitTimeInSec),
-                scheduler: DispatchQueue.main,
-                customError: { SWAPIError.timeoutError })
-            .sink(
-                receiveCompletion: didReceive(completion:),
-                receiveValue: didReceive(item:))
-            .store(
-                in: &anyCancellables)
-    }
-    
-    private func didReceive(completion: Subscribers.Completion<Error>) {
-        switch completion {
-        case .finished:
-            loadState = .finished
+    func onDispatch(with action: FluxAction) {
+        guard
+            let action = action as? VehicleAction
+        else {
+            return
+        }
+        
+        switch action {
+        case let .loaded(item):
+            didReceive(item: item)
         case .failure:
             loadState = .error
+        case .finished:
+            loadState = .finished
         }
     }
     

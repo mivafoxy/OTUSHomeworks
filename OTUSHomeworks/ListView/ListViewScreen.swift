@@ -10,39 +10,43 @@ import SWAPICore
 
 struct ListViewScreen<ModelType: Decodable & ListModelProtocol>: View {
     
-    @ObservedObject
-    var viewModel = ListViewModel<ModelType>()
+    // MARK: - Properties
     
-    @EnvironmentObject
-    private var navigation: NavigationStackViewModel
+    private var actionCreator = ListActionCreator<ModelType>()
+    @EnvironmentObject private var navigation: NavigationStackViewModel
+    @ObservedObject var listStore = ListStore<ModelType>()
+    
+    // MARK: - View
     
     var body: some View {
-        switch viewModel.loadingState {
+        switch listStore.loadingState {
         case .idle:
             Color.clear.onAppear {
-                viewModel.fetchItems()
+                actionCreator.callToFetchItemsPage(with: listStore.model.currentPage,
+                                                   and: ModelType.sectionName)
             }
         case .loading:
             ProgressView("Загрузка...")
         case .finished, .subloading:
             List {
-                ForEach(viewModel.model.items) { modelItem in
+                ForEach(listStore.model.items) { modelItem in
                     Text(modelItem.modelName)
                         .onTapGesture {
                             guard
-                                let view = viewModel.getView(for: modelItem)
+                                let view = listStore.getView(for: modelItem)
                             else {
                                 return
                             }
                             navigation.push(newView: view)
                         }
                         .onAppear {
-                            if viewModel.isLast(item: modelItem) {
-                                viewModel.fetchItems()
+                            if listStore.isLast(item: modelItem) {
+                                actionCreator.callToFetchItemsPage(with: listStore.model.currentPage,
+                                                                   and: ModelType.sectionName)
                             }
                         }
                     
-                    if viewModel.model.hasNextPage && viewModel.isLast(item:modelItem) {
+                    if listStore.model.hasNextPage && listStore.isLast(item:modelItem) {
                         ProgressView("Загрузка элементов")
                             .frame(idealWidth: .infinity,
                                    maxWidth: .infinity,
@@ -52,7 +56,8 @@ struct ListViewScreen<ModelType: Decodable & ListModelProtocol>: View {
             }
         case .error:
             Button("Error, try again") {
-                viewModel.fetchItems()
+                actionCreator.callToFetchItemsPage(with: listStore.model.currentPage,
+                                                   and: ModelType.sectionName)
             }
         }
     }

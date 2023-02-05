@@ -25,6 +25,7 @@ final class Configurator {
     func setup() {
         setupViewMapperService()
         setupNetworkService()
+        setupAppDispatcher()
     }
     
     private func setupViewMapperService() {
@@ -35,5 +36,10 @@ final class Configurator {
     private func setupNetworkService() {
         let networkService: SWAPIServiceProtocol = SWAPIService()
         ServiceLocator.shared.addService(service: networkService)
+    }
+    
+    private func setupAppDispatcher() {
+        let appDispatcher: FluxDispatcher = AppDispatcher()
+        ServiceLocator.shared.addService(service: appDispatcher)
     }
 }

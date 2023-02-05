@@ -8,22 +8,30 @@
 import SwiftUI
 
 struct SpecieViewScreen: View {
+    
+    // MARK: - Properties
+    
+    private var specieActionCreator = SpecieActionCreator()
     @EnvironmentObject private var navigation: NavigationStackViewModel
-    @ObservedObject private var viewModel: SpecieViewModel
+    @ObservedObject private var store: SpecieStore
+    
+    // MARK: - Init
     
     public init(_ dataItem: Specie) {
-        viewModel = SpecieViewModel(from: dataItem)
+        store = SpecieStore(from: dataItem)
     }
     
     public init(_ urlString: String) {
-        viewModel = SpecieViewModel(urlString: urlString)
+        store = SpecieStore(urlString: urlString)
     }
     
+    // MARK: - View
+    
     var body: some View {
-        switch viewModel.loadState {
+        switch store.loadState {
         case .idle:
             Color.clear.onAppear {
-                viewModel.fetchPlanet()
+                specieActionCreator.fetch(with: store.urlStringToFetch)
             }
         case .loading:
             ProgressView("Загрузка...")
@@ -34,35 +42,35 @@ struct SpecieViewScreen: View {
                         navigation.pop()
                     }
                     Group {
-                        Text("Название: \(viewModel.model.name)")
-                        Text("Классификация: \(viewModel.model.classification)")
-                        Text("Обозначение: \(viewModel.model.designation)")
-                        Text("Средний рост: \(viewModel.model.averageHeight)")
-                        Text("Средняя продолжительность жизни: \(viewModel.model.averageLifespan)")
-                        Text("Цвет глаз: \(viewModel.model.eyeColors)")
-                        Text("Цвет кожи: \(viewModel.model.skinColors)")
-                        Text("Язык: \(viewModel.model.language)")
+                        Text("Название: \(store.model.name)")
+                        Text("Классификация: \(store.model.classification)")
+                        Text("Обозначение: \(store.model.designation)")
+                        Text("Средний рост: \(store.model.averageHeight)")
+                        Text("Средняя продолжительность жизни: \(store.model.averageLifespan)")
+                        Text("Цвет глаз: \(store.model.eyeColors)")
+                        Text("Цвет кожи: \(store.model.skinColors)")
+                        Text("Язык: \(store.model.language)")
                         
                     }
                     
-                    Button("Родной мир: \(viewModel.model.homeworld ?? "nil")") {
-                        navigation.push(newView: PlanetViewScreen(viewModel.model.homeworld ?? ""))
+                    Button("Родной мир: \(store.model.homeworld ?? "nil")") {
+                        navigation.push(newView: PlanetViewScreen(store.model.homeworld ?? ""))
                     }
                     
                     Group {
-                        Text("Создан: \(viewModel.model.created)")
-                        Text("Обновлен:  \(viewModel.model.edited)")
+                        Text("Создан: \(store.model.created)")
+                        Text("Обновлен:  \(store.model.edited)")
                     }
                     
                     Group {
                         Text("Ссылки на людей:")
-                        ForEach(viewModel.model.people, id: \.self) { personUrl in
+                        ForEach(store.model.people, id: \.self) { personUrl in
                             Button(personUrl) {
                                 navigation.push(newView: PersonViewScreen(personUrl))
                             }
                         }
                         Text("Ссылки на фильмы:")
-                        ForEach(viewModel.model.films, id: \.self) { filmUrl in
+                        ForEach(store.model.films, id: \.self) { filmUrl in
                             Button(filmUrl) {
                                 navigation.push(newView: FilmViewScreen(filmUrl))
                             }
@@ -72,7 +80,7 @@ struct SpecieViewScreen: View {
             }
         case .error:
             Button("Попробовать снова.") {
-                viewModel.fetchPlanet()
+                specieActionCreator.fetch(with: store.urlStringToFetch)
             }
         case .subloading:
             EmptyView()
