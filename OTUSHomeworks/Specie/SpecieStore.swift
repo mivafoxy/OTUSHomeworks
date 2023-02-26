@@ -10,9 +10,8 @@ import Combine
 import SWAPICore
 
 enum SpecieAction: FluxAction {
-    case loaded(item: Specie)
+    case loaded(item: Specie?)
     case failure
-    case finished
 }
 
 final class SpecieStore: FluxStore {
@@ -41,7 +40,7 @@ final class SpecieStore: FluxStore {
     
     @Published private(set) var loadState: ViewModelLoadState
     @Published private(set) var model: SpecieModel
-    @Injected private var dispatcher: AppDispatcher?
+    @Injected private var dispatcher: FluxDispatcher?
     let urlStringToFetch: String
     
     // MARK: - Inits
@@ -102,12 +101,11 @@ final class SpecieStore: FluxStore {
             didReceive(item: item)
         case .failure:
             loadState = .error
-        case .finished:
-            loadState = .finished
         }
     }
     
-    private func didReceive(item: Specie) {
+    private func didReceive(item: Specie?) {
+        guard let item = item else { return }
         loadState = .finished
         model = SpecieModel(name: item.name,
                             classification: item.classification,

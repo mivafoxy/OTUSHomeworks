@@ -9,7 +9,12 @@ import SwiftUI
 import Combine
 import SWAPICore
 
-final class FilmViewModel: ObservableObject {
+enum FilmAction: FluxAction {
+    case loaded(item: Film?)
+    case failure
+}
+
+final class FilmStore: FluxStore {
     
     // MARK: - Types
     
@@ -31,15 +36,13 @@ final class FilmViewModel: ObservableObject {
     }
     
     // MARK: - Properties
-    
-    private let urlStringToFetch: String
-    private let waitTimeInSec = 60
-    private var anyCancellables = Set<AnyCancellable>()
+
     // 3. Добавить инжектинг в переменные инстанса класса,
     // чтобы в каждом классе можно было видеть зависимости, не скролля файл
-    @Injected var networkService: SWAPIServiceProtocol?
+    @Injected private var dispatcher: FluxDispatcher?
     @Published private(set) var loadState: ViewModelLoadState
     @Published private(set) var model: FilmModel
+    let urlStringToFetch: String
     
     // MARK: - Init
     
@@ -60,6 +63,7 @@ final class FilmViewModel: ObservableObject {
                           created: item.created,
                           edited: item.edited)
         urlStringToFetch = item.url
+        dispatcher?.register(actionType: FilmAction.self, for: self)
     }
     
     init(urlString: String) {
@@ -79,36 +83,28 @@ final class FilmViewModel: ObservableObject {
                           created: "",
                           edited: "")
         urlStringToFetch = urlString
+        dispatcher?.register(actionType: FilmAction.self, for: self)
     }
     
-    // MARK: - Network Methods
+    // MARK: - FluxStore
     
-    func fetchFilm() {
-        loadState = .loading
-        networkService?
-            .fetchItem(
-                urlString: urlStringToFetch)
-            .timeout(
-                .seconds(waitTimeInSec),
-                scheduler: DispatchQueue.main,
-                customError: { SWAPIError.timeoutError })
-            .sink(
-                receiveCompletion: didReceive(completion:),
-                receiveValue: didReceive(item:))
-            .store(
-                in: &anyCancellables)
-    }
-    
-    private func didReceive(completion: Subscribers.Completion<Error>) {
-        switch completion {
-        case .finished:
-            loadState = .finished
+    func onDispatch(with action: FluxAction) {
+        guard
+            let action = action as? FilmAction
+        else {
+            return
+        }
+        
+        switch action {
+        case let .loaded(item):
+            didReceive(item: item)
         case .failure:
             loadState = .error
         }
     }
-    
-    private func didReceive(item: Film) {
+
+    private func didReceive(item: Film?) {
+        guard let item = item else { return }
         loadState = .finished
         model = FilmModel(title: item.title,
                           episodeId: item.episode_id,

@@ -9,10 +9,15 @@ import SwiftUI
 import Combine
 import SWAPICore
 
-final class StarshipViewModel: ObservableObject {
+enum StarshipAction: FluxAction {
+    case loaded(item: Starship?)
+    case failure
+}
+
+final class StarshipStore: FluxStore {
     
     // MARK: - Types
-    
+      
     struct StarshipModel {
         let MGLT, cargoCapacity, consumables, costInCredits: String
         let created, crew, edited, hyperdriveRating: String
@@ -26,14 +31,12 @@ final class StarshipViewModel: ObservableObject {
     
     // MARK: - Properties
     
-    private let urlStringToFetch: String
-    private let waitTimeInSec = 60
-    private var anyCancellables = Set<AnyCancellable>()
     // 3. Добавить инжектинг в переменные инстанса класса,
     // чтобы в каждом классе можно было видеть зависимости, не скролля файл
-    @Injected private var networkService: SWAPIServiceProtocol?
+    @Injected private var dispatcher: FluxDispatcher?
     @Published private(set) var loadState: ViewModelLoadState
     @Published private(set) var model: StarshipModel
+    let urlStringToFetch: String
     
     // MARK: - Inits
     
@@ -58,6 +61,7 @@ final class StarshipViewModel: ObservableObject {
                               starshipClass: item.starship_class,
                               url: item.url)
         urlStringToFetch = item.url
+        dispatcher?.register(actionType: StarshipAction.self, for: self)
     }
     
     init(urlString: String) {
@@ -81,35 +85,28 @@ final class StarshipViewModel: ObservableObject {
                               starshipClass: "",
                               url: "")
         urlStringToFetch = urlString
+        dispatcher?.register(actionType: StarshipAction.self, for: self)
     }
     
-    // MARK: - Network methods
+    // MARK: - FluxStore
     
-    func fetchStarship() {
-        loadState = .loading
-        networkService?
-            .fetchItem(urlString: urlStringToFetch)
-            .timeout(
-                .seconds(waitTimeInSec),
-                scheduler: DispatchQueue.main,
-                customError: { SWAPIError.timeoutError })
-            .sink(
-                receiveCompletion: didReceive(completion:),
-                receiveValue: didReceive(item:))
-            .store(
-                in: &anyCancellables)
-    }
-    
-    private func didReceive(completion: Subscribers.Completion<Error>) {
-        switch completion {
-        case .finished:
-            loadState = .finished
+    func onDispatch(with action: FluxAction) {
+        guard
+            let action = action as? StarshipAction
+        else {
+            return
+        }
+        
+        switch action {
+        case let .loaded(item):
+            didReceive(item: item)
         case .failure:
             loadState = .error
         }
     }
     
-    private func didReceive(item: Starship) {
+    private func didReceive(item: Starship?) {
+        guard let item = item else { return }
         loadState = .finished
         model = StarshipModel(MGLT: item.MGLT,
                               cargoCapacity: item.cargo_capacity,

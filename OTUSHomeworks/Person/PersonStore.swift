@@ -9,7 +9,12 @@ import SwiftUI
 import Combine
 import SWAPICore
 
-final class PersonViewModel: ObservableObject {
+enum PersonAction: FluxAction {
+    case loaded(item: Person?)
+    case failure
+}
+
+final class PersonStore: FluxStore {
     
     // MARK: - Types
     
@@ -33,14 +38,12 @@ final class PersonViewModel: ObservableObject {
     
     // MARK: - Properties
     
-    private let urlStringToFetch: String
-    private let waitTimeInSec = 60
-    private var anyCancellables = Set<AnyCancellable>()
     // 3. Добавить инжектинг в переменные инстанса класса,
     // чтобы в каждом классе можно было видеть зависимости, не скролля файл
-    @Injected var networkService: SWAPIServiceProtocol?
-    @Published var loadState: ViewModelLoadState
-    @Published var model: PersonModel
+    @Injected private var dispatcher: FluxDispatcher?
+    @Published private(set) var loadState: ViewModelLoadState
+    @Published private(set) var model: PersonModel
+    let urlStringToFetch: String
     
     // MARK: - Init
     
@@ -62,6 +65,7 @@ final class PersonViewModel: ObservableObject {
                             created: item.created,
                             edited: item.edited)
         urlStringToFetch = item.url
+        dispatcher?.register(actionType: PersonAction.self, for: self)
     }
     
     init(urlString: String) {
@@ -82,36 +86,28 @@ final class PersonViewModel: ObservableObject {
                             vehicles: [],
                             created: "",
                             edited: "")
+        dispatcher?.register(actionType: PersonAction.self, for: self)
     }
     
-    // MARK: - Network methods
+    // MARK: - FluxStore
     
-    func fetchPerson() {
-        loadState = .loading
-        networkService?
-            .fetchItem(
-                urlString: urlStringToFetch)
-            .timeout(
-                .seconds(waitTimeInSec),
-                scheduler: DispatchQueue.main,
-                customError: { SWAPIError.timeoutError })
-            .sink(
-                receiveCompletion: didReceive(completion:),
-                receiveValue: didReceive(response:))
-            .store(
-                in: &anyCancellables)
-    }
-    
-    private func didReceive(completion: Subscribers.Completion<Error>) {
-        switch completion {
-        case .finished:
-            loadState = .finished
+    func onDispatch(with action: FluxAction) {
+        guard
+            let action = action as? PersonAction
+        else {
+            return
+        }
+        
+        switch action {
+        case let .loaded(item):
+            didReceive(response: item)
         case .failure:
             loadState = .error
         }
     }
     
-    private func didReceive(response: Person) {
+    private func didReceive(response: Person?) {
+        guard let response = response else { return }
         loadState = .finished
         model = PersonModel(name: response.name,
                             birthYear: response.birth_year,

@@ -8,22 +8,30 @@
 import SwiftUI
 
 struct PersonViewScreen: View {
+    
+    // MARK: - Properties
+    
+    private let actionCreator = PersonActionCreator()
     @EnvironmentObject private var navigation: NavigationStackViewModel
-    @ObservedObject private var viewModel: PersonViewModel
+    @ObservedObject private var viewModel: PersonStore
+    
+    // MARK: - Inits
     
     public init(_ dataItem: Person) {
-        viewModel = PersonViewModel(from: dataItem)
+        viewModel = PersonStore(from: dataItem)
     }
     
     public init(_ urlString: String) {
-        viewModel = PersonViewModel(urlString: urlString)
+        viewModel = PersonStore(urlString: urlString)
     }
+    
+    // MARK: - View
     
     var body: some View {
         switch viewModel.loadState {
         case .idle:
             Color.clear.onAppear {
-                viewModel.fetchPerson()
+                actionCreator.fetch(with: viewModel.urlStringToFetch)
             }
         case .loading:
             ProgressView("Загрузка...")
@@ -31,7 +39,7 @@ struct PersonViewScreen: View {
             mainBody
         case .error, .subloading:
             Button("Попробовать снова.") {
-                viewModel.fetchPerson()
+                actionCreator.fetch(with: viewModel.urlStringToFetch)
             }
         }
     }

@@ -10,9 +10,8 @@ import Combine
 import SWAPICore
 
 enum VehicleAction: FluxAction {
-    case loaded(item: Vehicle)
+    case loaded(item: Vehicle?)
     case failure
-    case finished
 }
 
 final class VehicleStore: FluxStore {
@@ -31,8 +30,6 @@ final class VehicleStore: FluxStore {
     
     // MARK: - Properties
     
-    private let waitTimeInSec = 60
-    private var anyCancellables = Set<AnyCancellable>()
     // 3. Добавить инжектинг в переменные инстанса класса,
     // чтобы в каждом классе можно было видеть зависимости, не скролля файл
     @Injected private var dispatcher: FluxDispatcher?
@@ -61,6 +58,7 @@ final class VehicleStore: FluxStore {
                               url: item.url,
                              vehicleClass: item.vehicle_class)
         urlStringToFetch = item.url
+        dispatcher?.register(actionType: VehicleAction.self, for: self)
     }
     
     init(urlString: String) {
@@ -99,12 +97,11 @@ final class VehicleStore: FluxStore {
             didReceive(item: item)
         case .failure:
             loadState = .error
-        case .finished:
-            loadState = .finished
         }
     }
     
-    private func didReceive(item: Vehicle) {
+    private func didReceive(item: Vehicle?) {
+        guard let item = item else { return }
         loadState = .finished
         model = VehicleModel(cargoCapacity: item.cargo_capacity,
                              consumables: item.consumables,

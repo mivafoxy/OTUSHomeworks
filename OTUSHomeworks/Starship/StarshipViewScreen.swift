@@ -8,22 +8,30 @@
 import SwiftUI
 
 struct StarshipViewScreen: View {
+    
+    // MARK: - Properties
+    
+    private var actionCreator = StarshipActionCreator()
     @EnvironmentObject private var navigation: NavigationStackViewModel
-    @ObservedObject private var viewModel: StarshipViewModel
+    @ObservedObject private var viewModel: StarshipStore
+    
+    // MARK: - Inits
     
     init(_ item: Starship) {
-        viewModel = StarshipViewModel(from: item)
+        viewModel = StarshipStore(from: item)
     }
     
     init(_ urlString: String) {
-        viewModel = StarshipViewModel(urlString: urlString)
+        viewModel = StarshipStore(urlString: urlString)
     }
+    
+    // MARK: - View
     
     var body: some View {
         switch viewModel.loadState {
         case .idle:
             Color.clear.onAppear {
-                viewModel.fetchStarship()
+                actionCreator.fetch(with: viewModel.urlStringToFetch)
             }
         case .loading:
             ProgressView("Загрузка...")
@@ -31,7 +39,7 @@ struct StarshipViewScreen: View {
             mainBody
         case .error, .subloading:
             Button("Попробовать снова.") {
-                viewModel.fetchStarship()
+                actionCreator.fetch(with: viewModel.urlStringToFetch)
             }
         }
     }

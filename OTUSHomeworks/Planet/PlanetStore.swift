@@ -9,7 +9,12 @@ import SwiftUI
 import Combine
 import SWAPICore
 
-final class PlanetViewModel: ObservableObject {
+enum PlanetAction: FluxAction {
+    case loaded(item: Planet?)
+    case failure
+}
+
+final class PlanetStore: FluxStore {
     // MARK: - Types
     
     struct PlanetModel {
@@ -23,14 +28,12 @@ final class PlanetViewModel: ObservableObject {
     
     // MARK: - Properties
     
-    private let urlStringToFetch: String
-    private let waitTimeInSec = 60
-    private var anyCancellables = Set<AnyCancellable>()
     // 3. Добавить инжектинг в переменные инстанса класса,
     // чтобы в каждом классе можно было видеть зависимости, не скролля файл
-    @Injected var networkService: SWAPIServiceProtocol?
+    @Injected private var dispatcher: FluxDispatcher?
     @Published private(set) var loadState: ViewModelLoadState
     @Published private(set) var model: PlanetModel
+    let urlStringToFetch: String
     
     // MARK: - Inits
     
@@ -51,6 +54,7 @@ final class PlanetViewModel: ObservableObject {
                             terrain: item.terrain,
                             url: item.url)
         urlStringToFetch = item.url
+        dispatcher?.register(actionType: PlanetAction.self, for: self)
     }
     
     init(urlString: String) {
@@ -70,35 +74,28 @@ final class PlanetViewModel: ObservableObject {
                             terrain: "",
                             url: "")
         urlStringToFetch = urlString
+        dispatcher?.register(actionType: PlanetAction.self, for: self)
     }
     
-    // MARK: - Network methods
+    // MARK: - FluxStore
     
-    func fetchPlanet() {
-        loadState = .loading
-        networkService?
-            .fetchItem(
-                urlString: urlStringToFetch)
-            .timeout(
-                .seconds(waitTimeInSec),
-                scheduler: DispatchQueue.main,
-                customError: { SWAPIError.timeoutError })
-            .sink(receiveCompletion: didReceive(completion:),
-                receiveValue: didReceive(item:))
-            .store(
-                in: &anyCancellables)
-    }
-    
-    private func didReceive(completion: Subscribers.Completion<Error>) {
-        switch completion {
-        case .finished:
-            loadState = .finished
+    func onDispatch(with action: FluxAction) {
+        guard
+            let action = action as? PlanetAction
+        else {
+            return
+        }
+        
+        switch action {
+        case let .loaded(item):
+            didReceive(item: item)
         case .failure:
             loadState = .error
         }
     }
     
-    private func didReceive(item: Planet) {
+    private func didReceive(item: Planet?) {
+        guard let item = item else { return }
         loadState = .finished
         model = PlanetModel(climate: item.climate,
                             created: item.created,

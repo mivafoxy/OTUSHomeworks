@@ -38,7 +38,7 @@ final class SpecieActionCreator {
     private func didReceive(completion: Subscribers.Completion<Error>) {
         switch completion {
         case .finished:
-            dispatcher?.dispatch(action: SpecieAction.finished)
+            dispatcher?.dispatch(action: SpecieAction.loaded(item: nil))
         case .failure:
             dispatcher?.dispatch(action: SpecieAction.failure)
         }
