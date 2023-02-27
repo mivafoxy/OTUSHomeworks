@@ -12,6 +12,9 @@ import SWAPICore
 final class FilmActionCreator {
     // MARK: - Properties
 
+    // Добавить инжектинг в переменные инстанса класса,
+    // чтобы в каждом классе можно было видеть зависимости,
+    // не скролля файл
     private var anyCancellables: [AnyCancellable] = []
     @Injected private var dispatcher: FluxDispatcher?
     @Injected private var networkService: SWAPIServiceProtocol?

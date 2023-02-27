@@ -10,9 +10,17 @@ import Foundation
 import SWAPICore
 
 final class ListActionCreator<ModelType: Decodable & ListModelProtocol> {
+    
+    // MARK: - Properties
+    
+    // Добавить инжектинг в переменные инстанса класса,
+    // чтобы в каждом классе можно было видеть зависимости,
+    // не скролля файл
     private var anyCancellables = Set<AnyCancellable>()
     @Injected var dispatcher: FluxDispatcher?
     @Injected var networkService: SWAPIServiceProtocol?
+    
+    // MARK: - Network
     
     func callToFetchItemsPage(with number: Int, and sectionName: String) {
         let waitTimeInSec = 60

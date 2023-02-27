@@ -13,6 +13,10 @@ final class PersonActionCreator {
     // MARK: - Properties
 
     private var anyCancellables: [AnyCancellable] = []
+    
+    // Добавить инжектинг в переменные инстанса класса,
+    // чтобы в каждом классе можно было видеть зависимости,
+    // не скролля файл
     @Injected private var dispatcher: FluxDispatcher?
     @Injected private var networkService: SWAPIServiceProtocol?
 
