@@ -7,15 +7,22 @@
 
 import SwiftUI
 
+/*
+ Уровень Core сервисов вынесен в пакет SWAPICore
+ В него вошли сервисы по работе с сетью и ServiceLocator.
+ */
+
 struct ContentView: View {
+    init() {
+        UIPageControl.appearance().currentPageIndicatorTintColor = .red
+        UIPageControl.appearance().pageIndicatorTintColor = UIColor.red.withAlphaComponent(0.2)
+        Configurator.shared.setup()
+    }
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+        NavigationStackView(transition: .custom(push: .scale, pop: .scale)) {
+            ListViewScreen<Films>()
         }
-        .padding()
     }
 }
 
