@@ -9,6 +9,13 @@ import Combine
 import Foundation
 import SWAPICore
 
+// MARK: - Types
+
+enum FilmError: Error {
+    case loadFromDiskError(message: String)
+    case saveToDiskError(message: String)
+}
+
 final class FilmActionCreator {
     // MARK: - Properties
 
@@ -46,5 +53,40 @@ final class FilmActionCreator {
     
     private func didReceive(item: Film) {
         dispatcher?.dispatch(action: FilmAction.loaded(item: item))
+    }
+    
+    // MARK: - 1. Реализовать кэширование на Realm/Files/Firebase/CoreData (лучше то, что еще не использовали)
+    
+    func loadFromDisk(webUrl: String) async throws {
+        let task = Task<FilmStore.FilmModel?, Error> {
+            let fileURL = try fileURL(webUrl: webUrl)
+            guard let data = try? Data(contentsOf: fileURL) else {
+                throw FilmError.loadFromDiskError(message: "Invalid file")
+            }
+            let film = try JSONDecoder().decode(FilmStore.FilmModel.self, from: data)
+            return film
+        }
+        guard let film = try await task.value else {
+            throw FilmError.loadFromDiskError(message: "Task returned nil")
+        }
+        dispatcher?.dispatch(action: FilmAction.loadedFromDisk(item: film))
+    }
+    
+    func saveToDisk(item: FilmStore.FilmModel) async throws {
+        let task = Task {
+            let data = try JSONEncoder().encode(item)
+            let outfile = try fileURL(webUrl: item.url)
+            try data.write(to: outfile)
+        }
+        _ = try await task.value
+    }
+    
+    func fileURL(webUrl: String) throws -> URL {
+        let test = webUrl.replacingOccurrences(of: "/", with: "").replacingOccurrences(of: ":", with: "")
+        return try FileManager.default.url(for: .documentDirectory,
+                                    in: .userDomainMask,
+                                    appropriateFor: nil,
+                                    create: false)
+        .appendingPathComponent("\(test)film.data")
     }
 }

@@ -20,32 +20,9 @@ struct ContentView: View {
     }
     
     var body: some View {
-            TabView {
-                NavigationStackView(transition: .custom(push: .scale, pop: .scale)) {
-                    ListViewScreen<People>()
-                }
-                
-                NavigationStackView(transition: .custom(push: .scale, pop: .scale)) {
-                    ListViewScreen<Films>()
-                }
-                
-                NavigationStackView(transition: .custom(push: .scale, pop: .scale)) {
-                    ListViewScreen<Starships>()
-                }
-                
-                NavigationStackView(transition: .custom(push: .scale, pop: .scale)) {
-                    ListViewScreen<Vehicles>()
-                }
-                
-                NavigationStackView(transition: .custom(push: .scale, pop: .scale)) {
-                    ListViewScreen<Species>()
-                }
-                
-                NavigationStackView(transition: .custom(push: .scale, pop: .scale)) {
-                    ListViewScreen<Planets>()
-                }
-            }
-            .tabViewStyle(.page(indexDisplayMode: .always))
+        NavigationStackView(transition: .custom(push: .scale, pop: .scale)) {
+            ListViewScreen<Films>()
+        }
     }
 }
 

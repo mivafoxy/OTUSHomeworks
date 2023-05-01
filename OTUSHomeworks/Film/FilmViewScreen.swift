@@ -18,7 +18,7 @@ struct FilmViewScreen: View {
     // MARK: - Inits
     
     public init(_ dataItem: Film) {
-        viewModel = FilmStore(from: dataItem)
+        viewModel = FilmStore(urlString: dataItem.url)
     }
     
     public init(_ urlString: String) {
@@ -31,7 +31,14 @@ struct FilmViewScreen: View {
         switch viewModel.loadState {
         case .idle:
             Color.clear.onAppear {
-                actionCreator.fetch(with: viewModel.urlStringToFetch)
+                Task {
+                    do {
+                        // MARK: - 5. Чтение сделать в момент запуска приложения или перезахода в экран тестирования структуры данных
+                        try await actionCreator.loadFromDisk(webUrl: viewModel.urlStringToFetch)
+                    } catch {
+                        actionCreator.fetch(with: viewModel.urlStringToFetch)
+                    }
+                }
             }
         case .loading:
             ProgressView("Загрузка...")
@@ -49,7 +56,15 @@ struct FilmViewScreen: View {
     var mainBody: some View {
         ScrollView {
             VStack(alignment: .leading) {
+                // MARK: - 4. Реализовать сохранение в файл при возвращении из экрана тестирования структуры данных
                 Button("Назад") {
+                    Task {
+                        do {
+                            try await actionCreator.saveToDisk(item: viewModel.model)
+                        } catch {
+                            fatalError("Failed to save film to disk")
+                        }
+                    }
                     navigation.pop()
                 }
                 Group {
@@ -64,39 +79,6 @@ struct FilmViewScreen: View {
                 Group {
                     Text("Создан: \(viewModel.model.created)")
                     Text("Обновлен:  \(viewModel.model.edited)")
-                }
-                
-                Group {
-                    Text("Ссылки на корабли:")
-                    ForEach(viewModel.model.starships, id: \.self) { starshipUrl in
-                        Button(starshipUrl) {
-                            navigation.push(newView: StarshipViewScreen(starshipUrl))
-                        }
-                    }
-                    Text("Ссылки на наземный транспорт:")
-                    ForEach(viewModel.model.vehicles, id: \.self) { vehicleUrl in
-                        Button(vehicleUrl) {
-                            navigation.push(newView: VehicleViewScreen(vehicleUrl))
-                        }
-                    }
-                    Text("Ссылки на расы:")
-                    ForEach(viewModel.model.species, id: \.self) { specieUrl in
-                        Button(specieUrl) {
-                            navigation.push(newView: SpecieViewScreen(specieUrl))
-                        }
-                    }
-                    Text("Ссылки на персонажей:")
-                    ForEach(viewModel.model.characters, id: \.self) { filmUrl in
-                        Button(filmUrl) {
-                            navigation.push(newView: PersonViewScreen(filmUrl))
-                        }
-                    }
-                    Text("Ссылки на планеты:")
-                    ForEach(viewModel.model.planets, id: \.self) { planetUrl in
-                        Button(planetUrl) {
-                            navigation.push(newView: PlanetViewScreen(planetUrl))
-                        }
-                    }
                 }
             }
         }

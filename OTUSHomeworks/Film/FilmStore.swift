@@ -11,6 +11,7 @@ import SWAPICore
 
 enum FilmAction: FluxAction {
     case loaded(item: Film?)
+    case loadedFromDisk(item: FilmStore.FilmModel)
     case failure
 }
 
@@ -18,7 +19,9 @@ final class FilmStore: FluxStore {
     
     // MARK: - Types
     
-    struct FilmModel {
+    
+    // MARK: - 2. Проверить, что модели поддерживают протокол Codable в вашем каркасе приложения
+    struct FilmModel: Codable {
         let title: String
         let episodeId: Int
         let openingCrawl: String
@@ -85,7 +88,7 @@ final class FilmStore: FluxStore {
         urlStringToFetch = urlString
         dispatcher?.register(actionType: FilmAction.self, for: self)
     }
-    
+        
     // MARK: - FluxStore
     
     func onDispatch(with action: FluxAction) {
@@ -100,6 +103,9 @@ final class FilmStore: FluxStore {
             didReceive(item: item)
         case .failure:
             loadState = .error
+        case let .loadedFromDisk(item):
+            loadState = .finished
+            model = item
         }
     }
 
